@@ -1,5 +1,3 @@
-// Carousel.jsx
-
 import React from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -41,6 +39,26 @@ const Carousel = () => {
     centerPadding: "0px",
     prevArrow: <SamplePrevArrow />,
     nextArrow: <SampleNextArrow />,
+    responsive: [
+      {
+        breakpoint: 768, // at screen width >= 768px
+        settings: {
+          slidesToShow: 1,
+        },
+      },
+      {
+        breakpoint: 1024, // at screen width >= 1024px
+        settings: {
+          slidesToShow: 1,
+        },
+      },
+      {
+        breakpoint: 1280, // at screen width >= 1280px
+        settings: {
+          slidesToShow: 1,
+        },
+      },
+    ],
   };
 
   return (
@@ -57,7 +75,9 @@ const Carousel = () => {
             <div className="absolute top-0 left-0 w-full h-full bg-black opacity-60"></div>
             <div className="absolute top-1/2 left-0 w-full text-center text-white font-bold z-10">
               <div className="text-6xl">SELAMAT DATANG</div>
-              <div className="text-2xl">Webiste resmi didesa teuing naon</div>
+              <div className="text-2xl">
+                Webiste resmi didesa teuing naon
+              </div>
             </div>
           </div>
         </div>
