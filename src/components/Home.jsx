@@ -1,7 +1,10 @@
 import React from "react";
 import Layout from "./Layout";
-import Carousel from "./Carousel";
 import ProfileCard from "./ProfileCard";
+import PhotoIman from "../assets/images/iman.png";
+import PhotoWawan from "../assets/images/wawan.png";
+import PhotoRawuh from "../assets/images/rawuh.jpeg";
+import PhotoSejarah from "../assets/images/sejarah.png";
 import PhotoShahrir from "../assets/images/SYAHRIR.png";
 import dompyong from "../assets/images/dompyong-kulon.jpg";
 import PhotoSlamet from "../assets/images/slametwiyadi.jpeg";
@@ -14,11 +17,13 @@ const Home = () => {
       <Layout>
         <div className="grid grid-cols-1 mb-8">
           <div className="relative">
-            <div className="absolute inset-0 bg-black opacity-50"></div>
-            <div className="absolute inset-0 flex items-center text-white">
-              <div className="mx-20 text-left">
-                <h1 className="text-2xl mb-5">Selamat Datang di</h1>
-                <p className="text-5xl uppercase font-bold">desan dompyong kulon</p>
+            <div className="absolute inset-0 bg-black opacity-80"></div>
+            <div className="absolute inset-0 flex items-center text-slate-300">
+              <div className="mx-0 md:mx-20 w-full text-center md:text-left">
+                <h1 className="text-2xl mb-5 truncate">Selamat Datang di</h1>
+                <p className="text-3xl md:text-5xl uppercase font-bold truncate">
+                  desa dompyong kulon
+                </p>
               </div>
             </div>
             <div
@@ -28,11 +33,11 @@ const Home = () => {
               }}
             ></div>
           </div>
-          <div className="mx-10 mt-10">
+          <div className="mx-5 sm:mx-10 mt-14">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:mx-0">
               <div>
-                <h1 className="text-3xl">Profil Desa Dompyong Kulon</h1>
-                <p className="mt-5 italic">
+                <h1 className="text-3xl text-slate-300">Profil Desa Dompyong Kulon</h1>
+                <p className="mt-5 italic text-pretty">
                   Desa Dompyong Kulon adalah salah satu desa di Kecamatan Gebang
                   yang mempunyai luas wilayah 234,47 Ha , 136 Ha Tanah
                   Pertanian,30,47 Ha dan 68 Ha Perumahan Tanah Bubulak dan
@@ -83,8 +88,8 @@ const Home = () => {
               </div>
             </div>
           </div>
-          <div className="mx-10 mt-12">
-            <div className="mx-10 text-center mb-10">
+          <div className="mx-5 sm:mx-10 mt-14">
+            <div className="mx-10 text-center mb-10 truncate text-slate-300">
               <h1 className="text-3xl">SOTK</h1>
               <span className="text-xl">
                 Susunan Organisasi dan Tata Kerja Desa Dompyong Kulon
@@ -126,6 +131,33 @@ const Home = () => {
                   description="Kaur Perencanaan"
                 />
               </div>
+              <div>
+                <ProfileCard
+                  image={PhotoWawan}
+                  name="wawan munawar"
+                  description="Kaur Tata Usaha & Umum"
+                />
+              </div>
+              <div>
+                <ProfileCard
+                  image={PhotoIman}
+                  name="iman sumantri"
+                  description="Kasi Pemerintahan"
+                />
+              </div>
+              <div>
+                <ProfileCard
+                  image={PhotoRawuh}
+                  name="rawuh"
+                  description="Kasi Kesejahteraan"
+                />
+              </div>
+            </div>
+          </div>
+          <div className="mx-0 sm:mx-5 mt-14">
+            <h1 className="text-3xl mb-10 text-center">Berita dan Sejarah Desa Dompyong</h1>
+            <div className="flex justify-center items-center">
+              <img src={PhotoSejarah} className="rounded-none sm:rounded-xl" alt="Sejarah" />
             </div>
           </div>
         </div>
