@@ -1,7 +1,10 @@
 import React from "react";
 import Layout from "./Layout";
+import Slider from "react-slick";
 import ProfileCard from "./ProfileCard";
 import ProgressBar from "./ProgressBar";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 import PhotoIman from "../assets/images/iman.png";
 import PhotoWawan from "../assets/images/wawan.png";
 import PhotoRawuh from "../assets/images/rawuh.jpeg";
@@ -13,6 +16,35 @@ import PhotoAmanTujaha from "../assets/images/amantujaha.png";
 import PhotoKhumaidi from "../assets/images/Khumaidi_kuwu.png";
 
 const Home = () => {
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    centerPadding: "60px",
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+          infinite: true,
+          dots: true,
+        },
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          infinite: true,
+          dots: true,
+        },
+      },
+    ],
+  };
+
   return (
     <>
       <Layout>
@@ -70,7 +102,7 @@ const Home = () => {
                   motor.
                 </p>
               </div>
-              <div>
+              <div className="mb-[400px] md:mb-0 h-full">
                 <div className="relative h-full w-full">
                   <div
                     className="absolute top-0 left-0 w-full h-full bg-cover bg-center rounded-xl"
@@ -92,7 +124,7 @@ const Home = () => {
                     </div>
                     <div className="mb-3">
                       <ProgressBar
-                        value="10"
+                        value="20"
                         title="Pemberdayaan Kemasyarakatan"
                       />
                     </div>
@@ -108,8 +140,8 @@ const Home = () => {
                 Susunan Organisasi dan Tata Kerja Desa Dompyong Kulon
               </span>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 sm:mx-0">
-              <div>
+            <Slider {...settings}>
+              <div className="w-10">
                 <ProfileCard
                   image={PhotoKhumaidi}
                   name="KHUMAIDI"
@@ -165,7 +197,7 @@ const Home = () => {
                   description="Kasi Kesejahteraan"
                 />
               </div>
-            </div>
+            </Slider>
           </div>
           <div className="mx-0 sm:mx-5 mt-14">
             <h1 className="text-3xl mb-10 text-center">
