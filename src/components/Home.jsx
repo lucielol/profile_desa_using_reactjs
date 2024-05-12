@@ -133,14 +133,14 @@ const Home = () => {
               </div>
             </div>
           </div>
-          <div className="mx-5 sm:mx-10 mt-14">
+          <div className="mt-14">
             <div className="mx-10 text-center mb-10 truncate">
               <h1 className="text-3xl">SOTK</h1>
               <span className="text-xl">
                 Susunan Organisasi dan Tata Kerja Desa Dompyong Kulon
               </span>
             </div>
-            <Slider {...settings}>
+            <Slider {...settings} className="px-5 sm:px-10">
               <div className="w-10">
                 <ProfileCard
                   image={PhotoKhumaidi}
