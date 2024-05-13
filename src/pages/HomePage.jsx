@@ -1,8 +1,10 @@
-import React from "react";
-import Layout from "./Layout";
+import React, { useState, useEffect } from "react";
+import News from "../components/News";
+import Layout from "../components/Layout";
 import Slider from "react-slick";
-import ProfileCard from "./ProfileCard";
-import ProgressBar from "./ProgressBar";
+import Gallery from "../components/Gallery";
+import ProfileCard from "../components/ProfileCard";
+import ProgressBar from "../components/ProgressBar";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import PhotoIman from "../assets/images/iman.png";
@@ -15,7 +17,16 @@ import PhotoSlamet from "../assets/images/slametwiyadi.jpeg";
 import PhotoAmanTujaha from "../assets/images/amantujaha.png";
 import PhotoKhumaidi from "../assets/images/Khumaidi_kuwu.png";
 
+import { FaSchool } from "react-icons/fa";
+import { FaArrowUp } from "react-icons/fa6";
+import { FaCompass } from "react-icons/fa6";
+import { MdHomeWork } from "react-icons/md";
+import { RiHomeSmileFill } from "react-icons/ri";
+import { MdSportsVolleyball } from "react-icons/md";
+
 const Home = () => {
+  const [showGoToTop, setShowGoToTop] = useState(false);
+
   const settings = {
     dots: true,
     infinite: true,
@@ -45,11 +56,91 @@ const Home = () => {
     ],
   };
 
+  const images = [
+    {
+      src: "https://fastly.picsum.photos/id/793/536/354.jpg?hmac=XIFVAzAu0yVaOvzskKwSbjpxtJ4eBif_HtCf92kxsMs",
+      alt: "Foto 1",
+    },
+    {
+      src: "https://fastly.picsum.photos/id/0/5000/3333.jpg?hmac=_j6ghY5fCfSD6tvtcV74zXivkJSPIfR9B8w34XeQmvU",
+      alt: "Foto 2",
+    },
+    {
+      src: "https://fastly.picsum.photos/id/6/5000/3333.jpg?hmac=pq9FRpg2xkAQ7J9JTrBtyFcp9-qvlu8ycAi7bUHlL7I",
+      alt: "Foto 3",
+    },
+    {
+      src: "https://fastly.picsum.photos/id/4/5000/3333.jpg?hmac=ghf06FdmgiD0-G4c9DdNM8RnBIN7BO0-ZGEw47khHP4",
+      alt: "Foto 4",
+    },
+    {
+      src: "https://fastly.picsum.photos/id/8/5000/3333.jpg?hmac=OeG5ufhPYQBd6Rx1TAldAuF92lhCzAhKQKttGfawWuA",
+      alt: "Foto 5",
+    },
+    {
+      src: "https://fastly.picsum.photos/id/26/4209/2769.jpg?hmac=vcInmowFvPCyKGtV7Vfh7zWcA_Z0kStrPDW3ppP0iGI",
+      alt: "Foto 6",
+    },
+  ];
+
+  const newsData = [
+    {
+      title: "Jalan Desa",
+      description:
+        "Jalan desa merupakan salah satu prasarana yang sangat penting bagi masyarakat desa. Jalan desa berfungsi sebagai akses transportasi antara desa dengan kota atau desa lainnya.",
+      icon: <FaCompass />
+    },
+    {
+      title: "Pusat Pemerintahan Desa",
+      description:
+        "Pusat pemerintahan desa merupakan tempat berkumpulnya pemerintahan desa dan masyarakat dalam melaksanakan berbagai kegiatan seperti rapat, musyawarah, dan sebagainya.",
+      icon: <MdHomeWork />
+    },
+    {
+      title: "Sekolah",
+      description:
+        "Sekolah merupakan sarana pendidikan yang penting bagi masyarakat desa. Sekolah di desa berfungsi untuk memberikan pendidikan dan meningkatkan taraf hidup masyarakat desa.",
+      icon: <FaSchool />
+    },
+    {
+      title: "Masjid",
+      description:
+        "Masjid merupakan tempat ibadah yang penting bagi masyarakat desa. Masjid di desa berfungsi sebagai tempat berkumpulnya masyarakat dalam melaksanakan ibadah.",
+      icon: <RiHomeSmileFill />
+    },
+    {
+      title: "Lapangan Olahraga",
+      description:
+        "Lapangan olahraga merupakan sarana olahraga yang penting bagi masyarakat desa. Lapangan olahraga di desa berfungsi sebagai tempat untuk berolahraga dan mengembangkan potensi olahraga masyarakat desa.",
+      icon: <MdSportsVolleyball />
+    },
+  ];
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const isScrolled = window.scrollY > 0;
+      setShowGoToTop(isScrolled);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
   return (
     <>
       <Layout>
         <div className="grid grid-cols-1 mb-8">
-          <div className="relative">
+          <div id="home" className="relative">
             <div className="absolute inset-0 bg-black opacity-70"></div>
             <div className="absolute inset-0 flex items-center text-white">
               <div className="mx-0 md:mx-20 w-full text-center md:text-left">
@@ -66,7 +157,8 @@ const Home = () => {
               }}
             ></div>
           </div>
-          <div className="mx-5 sm:mx-10 mt-14">
+          <div id="profile" className="mb-24"></div>
+          <div className="mx-5 sm:mx-10">
             <div className="relative grid grid-cols-1 md:grid-cols-2 gap-4 sm:mx-0">
               <div>
                 <h1 className="text-3xl">Profil Desa Dompyong Kulon</h1>
@@ -133,15 +225,15 @@ const Home = () => {
               </div>
             </div>
           </div>
-          <div className="mt-14">
+          <div className="mx-5 sm:mx-10 mt-24">
             <div className="mx-10 text-center mb-10 truncate">
               <h1 className="text-3xl">SOTK</h1>
               <span className="text-xl">
                 Susunan Organisasi dan Tata Kerja Desa Dompyong Kulon
               </span>
             </div>
-            <Slider {...settings} className="px-5 sm:px-10">
-              <div className="w-10">
+            <Slider {...settings}>
+              <div>
                 <ProfileCard
                   image={PhotoKhumaidi}
                   name="KHUMAIDI"
@@ -199,7 +291,8 @@ const Home = () => {
               </div>
             </Slider>
           </div>
-          <div className="mx-0 sm:mx-5 mt-14">
+          <div id="infografis" className="mb-24"></div>
+          <div className="mx-0 sm:mx-5">
             <h1 className="text-3xl mb-10 text-center">
               Berita dan Sejarah Desa Dompyong
             </h1>
@@ -211,7 +304,37 @@ const Home = () => {
               />
             </div>
           </div>
+          <div id="gallery" className="mb-24"></div>
+          <div className="mx-5 sm:mx-10">
+            <h1 className="text-3xl text-center">
+              Gallery Desa Dompyong Kulon
+            </h1>
+            <div className="mt-10">
+              <Gallery images={images} />
+            </div>
+          </div>
+          <div id="news" className="mb-24"></div>
+          <div className="mx-5 sm:mx-10">
+            <div className="text-center">
+              <h1 className="text-3xl">SARPRAS</h1>
+              <span className="text-xl">
+                Sarana dan Prasarana Desa Dompyong Kulon
+              </span>
+            </div>
+            <div className="mt-10">
+              <News newsData={newsData} />
+            </div>
+          </div>
         </div>
+
+        {showGoToTop && (
+        <button
+          className="fixed bottom-10 right-6 sm:right-10 bg-gray-800/70 border border-gray-600/40 shadow-lg text-white p-2 rounded-full hover:bg-gray-700 transition-colors duration-300 backdrop-blur-md z-20"
+          onClick={scrollToTop}
+        >
+          <FaArrowUp />
+        </button>
+      )}
       </Layout>
     </>
   );

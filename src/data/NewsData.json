@@ -1,0 +1,29 @@
+{
+  "newsData": [
+    {
+      "title": "Jalan Desa",
+      "description": "Jalan desa merupakan salah satu prasarana yang sangat penting bagi masyarakat desa. Jalan desa berfungsi sebagai akses transportasi antara desa dengan kota atau desa lainnya.",
+      "icon": "FaCompass"
+    },
+    {
+      "title": "Pusat Pemerintahan Desa",
+      "description": "Pusat pemerintahan desa merupakan tempat berkumpulnya pemerintahan desa dan masyarakat dalam melaksanakan berbagai kegiatan seperti rapat, musyawarah, dan sebagainya.",
+      "icon": "MdHomeWork"
+    },
+    {
+      "title": "Sekolah",
+      "description": "Sekolah merupakan sarana pendidikan yang penting bagi masyarakat desa. Sekolah di desa berfungsi untuk memberikan pendidikan dan meningkatkan taraf hidup masyarakat desa.",
+      "icon": "FaSchool"
+    },
+    {
+      "title": "Masjid",
+      "description": "Masjid merupakan tempat ibadah yang penting bagi masyarakat desa. Masjid di desa berfungsi sebagai tempat berkumpulnya masyarakat dalam melaksanakan ibadah.",
+      "icon": "RiHomeSmileFill"
+    },
+    {
+      "title": "Lapangan Olahraga",
+      "description": "Lapangan olahraga merupakan sarana olahraga yang penting bagi masyarakat desa. Lapangan olahraga di desa berfungsi sebagai tempat untuk berolahraga dan mengembangkan potensi olahraga masyarakat desa.",
+      "icon": "MdSportsVolleyball"
+    }
+  ]
+}

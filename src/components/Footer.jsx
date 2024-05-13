@@ -11,7 +11,7 @@ const Footer = () => {
         <ContactUs />
       </div>
       <div className="text-center border-t border-gray-700/70 w-full p-3">
-        &copy; Copyright Desa Dompyong Kulon. All Rights Reserved <br />
+        &copy; Copyright Desa Dompyong Kulon<br />
         Designed by Kelompok 10
       </div>
     </footer>

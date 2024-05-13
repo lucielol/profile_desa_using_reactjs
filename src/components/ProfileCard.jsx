@@ -3,7 +3,7 @@ import { FaFacebook, FaInstagram } from "react-icons/fa"; // Contoh penggunaan F
 
 const ProfileCard = ({ image, name, description }) => {
   return (
-    <div className="max-w-sm rounded-xl overflow-hidden shadow-lg border p-6">
+    <div className="max-w-sm rounded-xl overflow-hidden border p-6">
       <div className="flex justify-center">
         <img
           className="w-48 h-48 object-cover rounded-full"
