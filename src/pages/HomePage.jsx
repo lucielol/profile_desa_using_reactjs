@@ -24,7 +24,7 @@ import PhotoKhumaidi from "../assets/images/Khumaidi_kuwu.png";
 const Home = () => {
   const [showGoToTop, setShowGoToTop] = useState(false);
   const location = useLocation();
-  let { state } = useLocation();
+  const state = location.state;
 
   const settings = {
     dots: true,
@@ -96,15 +96,12 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    console.log(state.id);
-    if (state.id) {
+    if (state && state.id) {
       const { id } = state;
       scrollTo(id);
-      state.id = null;
-    } else {
-      scrollTo("home");
+      location.state = null;
     }
-  }, [state]);
+  }, [state, location]);
 
   const scrollTo = (id) => {
     const element = document.getElementById(id);

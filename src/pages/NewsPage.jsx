@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import Layout from "../components/Layout";
 import { useParams, Link } from "react-router-dom";
 import newsData from "../data/NewsData.json";
+import { FaArrowLeft } from "react-icons/fa";
 import dompyong from "../assets/images/dompyong-kulon.jpg";
 
 export const NewsPage = () => {
@@ -22,18 +23,19 @@ export const NewsPage = () => {
           <div id="home" className="relative">
             <div className="absolute inset-0 bg-black opacity-70"></div>
             <div className="absolute inset-0 flex items-center text-white">
-              <div className="mx-0 md:mx-20 w-full text-center md:text-left">
+              <div className="mx-7 md:mx-20 w-full text-left">
                 <div className="mb-8">
                   <Link
                     to="/"
                     state={{ id: "news" }}
-                    className="text-2xl hover:underline hover:duration-75"
+                    className="text-2xl w-auto hover:text-blue-500 flex"
                   >
+                    <span className="mt-1 me-2"><FaArrowLeft /></span>
                     Kembali
                   </Link>
                 </div>
                 <div className="bg-slate-700/50 p-7 rounded-xl backdrop-blur-lg">
-                  <h1 className="text-4xl mb-5 truncate">{item.title}</h1>
+                  <h1 className="text-2xl mb-5 truncate">{item.title}</h1>
                   <p>{item.description}</p>
                 </div>
               </div>
