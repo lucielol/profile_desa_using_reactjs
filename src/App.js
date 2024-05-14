@@ -8,8 +8,8 @@ const App = () => {
   return (
     <HashRouter>
       <Routes>
-        <Route path="/" exact element={<HomePage />} />
-        <Route path="/news/:id" element={<NewsPage />} />
+        <Route path="/" exact element={<HomePage/>} />
+        <Route path="/news/:id" element={<NewsPage/>} />
       </Routes>
     </HashRouter>
   );
