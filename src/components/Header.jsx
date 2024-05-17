@@ -35,7 +35,7 @@ const Header = () => {
     <div>
       <header
         className={`${
-          scrolled || showMenu ? "bg-slate-700/70" : "bg-transparent"
+          scrolled || showMenu ? "bg-slate-700/90" : "bg-transparent"
         } text-white p-4 md:px-10 flex justify-between items-center w-full top-0 z-50 fixed backdrop-blur-lg`}
       >
         <div className="flex items-center">
@@ -101,7 +101,7 @@ const Header = () => {
       <div
         className={`${
           showMenu ? "block" : "hidden"
-        } fixed inset-0 top-[4.51rem] bg-slate-700/70 backdrop-blur-lg z-40`}
+        } fixed inset-0 top-[4.51rem] bg-slate-700/90 backdrop-blur-lg z-40`}
       >
         <div className="flex flex-col p-7 h-full overflow-hidden">
           <ul className="flex flex-col text-white space-y-2">

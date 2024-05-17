@@ -35,7 +35,7 @@ export const NewsPage = () => {
                   </Link>
                 </div>
                 <div className="bg-slate-700/50 p-7 rounded-xl backdrop-blur-lg">
-                  <h1 className="text-2xl mb-5 truncate">{item.title}</h1>
+                  <h1 className="text-xl sm:text-2xl mb-5">{item.title}</h1>
                   <p>{item.description}</p>
                 </div>
               </div>

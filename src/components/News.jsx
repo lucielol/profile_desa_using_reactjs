@@ -32,7 +32,7 @@ const News = ({ newsData }) => {
                   </div>
                   <div>{data.title}</div>
                 </NavLink>
-                <p className="text-gray-700 line-clamp-3">{data.description}</p>
+                <p className="text-gray-700 line-clamp-4">{data.description}</p>
               </div>
             </div>
           </div>
