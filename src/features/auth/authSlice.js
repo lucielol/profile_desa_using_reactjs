@@ -11,41 +11,24 @@ export const LoginUser = createAsyncThunk(
   "auth/login",
   async ({ email, password }, { rejectWithValue }) => {
     try {
-      // Langkah 1: Ambil CSRF Token dengan mengakses endpoint sanctum/csrf-cookie
-      await axios
-        .get("http://127.0.0.1:8000/sanctum/csrf-cookie", {
-          withCredentials: true, // Sertakan kredensial seperti cookie
-        })
-        .then((data) => {
-          console.log(data);
-        });
+      await axios.get("/sanctum/csrf-cookie", {
+        withCredentials: true,
+      });
 
-      // Pastikan cookie XSRF-TOKEN ada
-      const xsrfToken = Cookies.get("XSRF-TOKEN");
-      console.log("XSRF-TOKEN after fetching CSRF cookie:", xsrfToken);
-
-      // Jika XSRF-TOKEN masih undefined, periksa apakah cookies sedang disimpan dengan benar
-      if (!xsrfToken) {
-        throw new Error("CSRF token not found in cookies");
-      }
-
-      // Langkah 2: Kirim permintaan POST untuk login dengan menyertakan token CSRF
       const response = await axios.post(
-        "http://127.0.0.1:8000/api/login",
+        "/api/login",
         { email, password },
         {
           headers: {
-            "Content-Type": "application/json",
-            "X-XSRF-TOKEN": xsrfToken, // Ambil token CSRF dari cookie
+            Accept: "application/json",
+            "X-XSRF-TOKEN": Cookies.get("XSRF-TOKEN"),
           },
-          withCredentials: true, // Sertakan kredensial seperti cookie
+          withCredentials: true,
         }
       );
 
       if (response.status !== 200) {
         if (response.status === 419) {
-          // Handle 419 status
-          // Contoh: Hapus token yang tidak valid
           Cookies.remove("access_token");
         }
         return rejectWithValue(response.data.message || "Login failed");
