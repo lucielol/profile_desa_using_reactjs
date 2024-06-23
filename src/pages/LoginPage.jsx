@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { LoginUser, reset } from "../features/auth/authSlice";
 import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -25,9 +26,11 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if (user || isSuccess) {
+    if (user || Cookies.get("access_token") || isSuccess) {
       navigate("/dashboard");
     }
+
+    console.log(user);
 
     if (isError) {
       setErrorLogin(true);

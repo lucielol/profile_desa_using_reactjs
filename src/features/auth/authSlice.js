@@ -3,10 +3,8 @@ import Cookies from "js-cookie";
 import CryptoJS from "crypto-js";
 import axios from "axios";
 
-// Kunci enkripsi (sesuaikan dengan kunci Anda)
 const secretKey = "your-secret-key";
 
-// Thunk untuk login
 export const LoginUser = createAsyncThunk(
   "auth/login",
   async ({ email, password }, { rejectWithValue }) => {
@@ -51,7 +49,6 @@ export const LoginUser = createAsyncThunk(
   }
 );
 
-// Slice untuk autentikasi
 const authSlice = createSlice({
   name: "auth",
   initialState: {
@@ -61,7 +58,7 @@ const authSlice = createSlice({
     isSuccess: false,
     isError: false,
     message: null,
-    isMe: false, // Tambahkan isMe di initialState
+    isMe: false,
   },
   reducers: {
     reset: (state) => {
@@ -74,7 +71,7 @@ const authSlice = createSlice({
       state.user = null;
       state.token = null;
       Cookies.remove("access_token");
-      state.isMe = false; // Reset isMe saat logout
+      state.isMe = false;
     },
   },
   extraReducers: (builder) => {
@@ -89,17 +86,15 @@ const authSlice = createSlice({
         state.token = action.payload.access_token;
         state.user = action.payload.user || { email: action.meta.arg.email };
         state.isSuccess = true;
-        state.isMe = true; // Set isMe to true upon successful login
+        state.isMe = true;
       })
       .addCase(LoginUser.rejected, (state, action) => {
         state.loading = false;
         state.isError = true;
         state.message = action.payload || "Login failed";
-        state.isMe = false; // Reset isMe upon login failure
+        state.isMe = false;
         if (action.payload && action.payload.status === 419) {
-          // Handle 419 status
           Cookies.remove("access_token");
-          // Atau lakukan aksi lain yang sesuai seperti menavigasi ke halaman login
         }
       });
   },
