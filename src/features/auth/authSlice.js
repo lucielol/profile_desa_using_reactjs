@@ -3,7 +3,7 @@ import Cookies from "js-cookie";
 import CryptoJS from "crypto-js";
 import axios from "axios";
 
-// Kunci enkripsi
+// Kunci enkripsi (sesuaikan dengan kunci Anda)
 const secretKey = "your-secret-key";
 
 // Thunk untuk login
@@ -11,22 +11,34 @@ export const LoginUser = createAsyncThunk(
   "auth/login",
   async ({ email, password }, { rejectWithValue }) => {
     try {
-      // await axios.get("http://127.0.0.1:8000/sanctum/csrf-cookie", {
-      //   withCredentials: true,
-      // });
+      // Langkah 1: Ambil CSRF Token dengan mengakses endpoint sanctum/csrf-cookie
+      await axios
+        .get("http://127.0.0.1:8000/sanctum/csrf-cookie", {
+          withCredentials: true, // Sertakan kredensial seperti cookie
+        })
+        .then((data) => {
+          console.log(data);
+        });
 
+      // Pastikan cookie XSRF-TOKEN ada
+      const xsrfToken = Cookies.get("XSRF-TOKEN");
+      console.log("XSRF-TOKEN after fetching CSRF cookie:", xsrfToken);
+
+      // Jika XSRF-TOKEN masih undefined, periksa apakah cookies sedang disimpan dengan benar
+      if (!xsrfToken) {
+        throw new Error("CSRF token not found in cookies");
+      }
+
+      // Langkah 2: Kirim permintaan POST untuk login dengan menyertakan token CSRF
       const response = await axios.post(
         "http://127.0.0.1:8000/api/login",
-        {
-          withCredentials: true,
-          email,
-          password,
-        },
+        { email, password },
         {
           headers: {
-            Accept: "application/json",
-            "X-XSRF-TOKEN": Cookies.get("XSRF-TOKEN"),
+            "Content-Type": "application/json",
+            "X-XSRF-TOKEN": xsrfToken, // Ambil token CSRF dari cookie
           },
+          withCredentials: true, // Sertakan kredensial seperti cookie
         }
       );
 
@@ -53,6 +65,7 @@ export const LoginUser = createAsyncThunk(
 
       return data;
     } catch (error) {
+      console.error("Error during login process:", error);
       return rejectWithValue("An error occurred. Please try again.");
     }
   }
