@@ -28,15 +28,11 @@ export const LoginUser = createAsyncThunk(
       );
 
       if (response.status !== 200) {
-        if (response.status === 419) {
-          Cookies.remove("access_token");
-        }
         return rejectWithValue(response.data.message || "Login failed");
       }
 
       const data = response.data;
 
-      // Enkripsi token sebelum menyimpan ke cookie
       const encryptedToken = CryptoJS.AES.encrypt(
         data.access_token,
         secretKey
@@ -48,8 +44,9 @@ export const LoginUser = createAsyncThunk(
 
       return data;
     } catch (error) {
-      console.error("Error during login process:", error);
-      return rejectWithValue("An error occurred. Please try again.");
+      return rejectWithValue(
+        error.response?.data?.message || "An error occurred. Please try again."
+      );
     }
   }
 );

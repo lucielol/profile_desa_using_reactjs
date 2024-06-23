@@ -31,6 +31,9 @@ const Login = () => {
 
     if (isError) {
       setErrorLogin(true);
+      setTimeout(() => {
+        dispatch(reset());
+      }, 2000);
     }
 
     dispatch(reset());
