@@ -30,8 +30,6 @@ const Login = () => {
       navigate("/dashboard");
     }
 
-    console.log(user);
-
     if (isError) {
       setErrorLogin(true);
       setTimeout(() => {
@@ -42,9 +40,10 @@ const Login = () => {
     dispatch(reset());
   }, [user, isSuccess, isError, message, dispatch, navigate]);
 
-  if (token && isMe) {
+  if ((token || Cookies.get("access_token")) && isMe) {
     navigate("/dashboard");
   }
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="max-w-md w-full space-y-8 bg-white shadow-md p-6 rounded-lg">

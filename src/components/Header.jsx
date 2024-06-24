@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import logo from "../assets/images/logo.png";
-// import { useLocation } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { IoMenu, IoClose } from "react-icons/io5";
 
 const Header = () => {
@@ -36,7 +36,7 @@ const Header = () => {
       <header
         className={`${
           scrolled || showMenu ? "bg-slate-700/90" : "bg-transparent"
-        } text-white p-4 md:px-10 flex justify-between items-center w-full top-0 z-50 fixed backdrop-blur-lg`}
+        } text-white p-2 md:px-10 flex justify-between items-center w-full top-0 z-50 fixed backdrop-blur-lg`}
       >
         <div className="flex items-center">
           <img src={logo} alt="Logo" className="h-10 mr-2" />
@@ -46,9 +46,9 @@ const Header = () => {
         </div>
         <nav
           ref={menuRef}
-          className={`hidden md:block md:flex md:space-x-12 bg-gray-800/90 md:bg-transparent pb-5 md:pb-0`}
+          className={`hidden md:block md:flex md:space-x-12 bg-gray-800/90 md:bg-transparent md:pb-0`}
         >
-          <ul className="w-full flex flex-col text-white md:flex-row space-y-2 md:space-y-0 md:space-x-12 md:w-auto">
+          <ul className="w-full flex flex-col text-white md:flex-row space-y-2 md:space-y-0 md:space-x-10 md:w-auto items-center">
             <li>
               <button
                 className="border-b-2 border-transparent hover:border-red-600"
@@ -88,6 +88,14 @@ const Header = () => {
               >
                 Berita
               </button>
+            </li>
+            <li>
+              <NavLink
+                to="/login"
+                className="bg-blue-500 p-1 px-3 rounded-lg font-bold hover:bg-blue-600"
+              >
+                Login
+              </NavLink>
             </li>
           </ul>
         </nav>

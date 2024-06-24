@@ -3,7 +3,7 @@ import Cookies from "js-cookie";
 import CryptoJS from "crypto-js";
 import axios from "axios";
 
-const secretKey = "your-secret-key";
+const secretKey = "l630bfaYZQeSXGWMAYKSvaTSD0K7ngd2";
 
 export const LoginUser = createAsyncThunk(
   "auth/login",
@@ -35,6 +35,7 @@ export const LoginUser = createAsyncThunk(
         data.access_token,
         secretKey
       ).toString();
+
       Cookies.set("access_token", encryptedToken, {
         expires: 7,
         secure: true,
@@ -93,6 +94,7 @@ const authSlice = createSlice({
         state.isError = true;
         state.message = action.payload || "Login failed";
         state.isMe = false;
+
         if (action.payload && action.payload.status === 419) {
           Cookies.remove("access_token");
         }
