@@ -3,7 +3,7 @@ import logo from "../assets/images/logo.png";
 import { NavLink } from "react-router-dom";
 import { IoMenu, IoClose } from "react-icons/io5";
 
-const Header = () => {
+export const Header = () => {
   const [showMenu, setShowMenu] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const menuRef = useRef(null);
@@ -92,7 +92,7 @@ const Header = () => {
             <li>
               <NavLink
                 to="/login"
-                className="bg-blue-500 p-1 px-3 rounded-lg hover:bg-blue-600"
+                className="bg-blue-500 p-1 px-3 rounded-lg font-bold hover:bg-blue-600"
               >
                 Login
               </NavLink>
@@ -159,5 +159,3 @@ const Header = () => {
     </div>
   );
 };
-
-export default Header;

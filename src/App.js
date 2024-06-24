@@ -6,6 +6,7 @@ import LoginPage from "./pages/LoginPage";
 import { NewsPage } from "./pages/NewsPage";
 import PrivateRoute from "./PrivateRoute";
 import Dashboard from "./pages/Dashboard/Dashboard";
+import { HeaderEdit } from "./pages/Dashboard/HeaderEdit";
 
 const App = () => {
   return (
@@ -19,6 +20,14 @@ const App = () => {
           element={
             <PrivateRoute>
               <Dashboard />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/dashboard/header/edit"
+          element={
+            <PrivateRoute>
+              <HeaderEdit />
             </PrivateRoute>
           }
         />

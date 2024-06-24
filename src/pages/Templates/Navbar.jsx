@@ -1,29 +1,31 @@
 import React from "react";
-import { Navbar as NavBar } from "flowbite-react";
+import { useDispatch } from "react-redux";
+import { logout } from "../../features/auth/authSlice";
+import { useNavigate } from "react-router-dom";
 
-const Navbar = () => {
-  <NavBar fluid rounded>
-    <NavBar.Brand href="https://flowbite-react.com">
-      <img
-        src="/favicon.svg"
-        className="mr-3 h-6 sm:h-9"
-        alt="Flowbite React Logo"
-      />
-      <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
-        Flowbite React
-      </span>
-    </NavBar.Brand>
-    <NavBar.Toggle />
-    <NavBar.Collapse>
-      <NavBar.Link href="#" active>
-        Home
-      </NavBar.Link>
-      <NavBar.Link href="#">About</NavBar.Link>
-      <NavBar.Link href="#">Services</NavBar.Link>
-      <NavBar.Link href="#">Pricing</NavBar.Link>
-      <NavBar.Link href="#">Contact</NavBar.Link>
-    </NavBar.Collapse>
-  </NavBar>;
+const Navbar = ({ children }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate("/login");
+  };
+  return (
+    <header className="flex items-center justify-between px-6 py-4 bg-white dark:bg-gray-800">
+      <div>
+        <h1 className="text-xl font-bold">{children}</h1>
+      </div>
+      <div className="flex items-center space-x-4">
+        <button
+          onClick={handleLogout}
+          className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
+        >
+          Logout
+        </button>
+      </div>
+    </header>
+  );
 };
 
 export default Navbar;
