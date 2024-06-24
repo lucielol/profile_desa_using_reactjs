@@ -92,7 +92,9 @@ const Header = () => {
             </li>
             <li>
               <NavLink to="/login">
-                <Button color="blue">Login</Button>
+                <Button color="blue" size="sm">
+                  Login
+                </Button>
               </NavLink>
             </li>
           </ul>

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { check, LoginUser, reset } from "../features/auth/authSlice";
 import { useNavigate } from "react-router-dom";
 import { Spinner, Button } from "flowbite-react";
-import getToken from "../components/GetToken";
+import getToken from "../GetToken";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -29,12 +29,12 @@ const Login = () => {
   useEffect(() => {
     if (getToken) {
       dispatch(check(getToken));
-      navigate("/dashboard");
     }
   }, [dispatch, user, isSuccess, navigate]);
 
   useEffect(() => {
-    if (user || isSuccess) {
+    console.log("Token", token);
+    if (isSuccess && user && token) {
       navigate("/dashboard");
     }
 
@@ -46,7 +46,7 @@ const Login = () => {
     }
 
     dispatch(reset());
-  }, [user, isSuccess, isError, message, dispatch, navigate]);
+  }, [user, isSuccess, token, isError, message, dispatch, navigate]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">

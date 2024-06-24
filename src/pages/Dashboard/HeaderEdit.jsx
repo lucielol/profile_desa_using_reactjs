@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import App from "../Templates/App";
 import axios from "axios";
+import getToken from "../../GetToken";
 import Navbar from "../Templates/Navbar";
-import getToken from "../../components/GetToken";
+import Cookies from "js-cookie";
 import { Button } from "flowbite-react";
+import CryptoJS from "crypto-js";
 import { Label, TextInput, FileInput, Toast } from "flowbite-react";
 import { HiCheck, HiX } from "react-icons/hi";
 
@@ -15,35 +17,61 @@ export const HeaderEdit = () => {
     navs: [],
   });
 
+  const secretKey = "l630bfaYZQeSXGWMAYKSvaTSD0K7ngd2";
+  const encryptedToken = Cookies.get("access_token");
+  const bytes = CryptoJS.AES.decrypt(encryptedToken, secretKey);
+  const decryptedToken = bytes.toString(CryptoJS.enc.Utf8);
+
   const [toastMessage, setToastMessage] = useState("");
   const [toastType, setToastType] = useState("");
   const [showToast, setShowToast] = useState(false);
 
-  const getContent = async () => {
-    try {
-      const response = await axios.get("/api/content/header", {
-        headers: {
-          Authorization: `Bearer ${getToken}`,
-        },
-      });
+  // const getContent = async () => {
+  //   try {
+  //     const token = getToken();
+  //     const response = await axios.get("/api/content/header", {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //     });
 
-      const contentItem = response.data.content[0];
-      const parsedContent = JSON.parse(contentItem.content);
-      setIdContent(contentItem.id);
-      setContent(parsedContent);
-      setFormData(parsedContent);
-    } catch (error) {
-      console.error("Error fetching header content:", error);
-    }
-  };
+  //     const contentItem = response.data.content[0];
+  //     const parsedContent = JSON.parse(contentItem.content);
+  //     setIdContent(contentItem.id);
+  //     setContent(parsedContent);
+  //     setFormData(parsedContent);
+  //   } catch (error) {
+  //     console.error("Error fetching header content:", error);
+  //   }
+  // };
 
   useEffect(() => {
-    if (getToken) {
-      getContent();
-    } else {
-      console.error("No decrypted token available.");
-    }
-  }, [getToken]);
+    const fetchContent = async () => {
+      try {
+        const token = decryptedToken;
+        if (!token) {
+          console.error("No decrypted token available.");
+          return;
+        }
+
+        const response = await axios.get("/api/content/header", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        const contentItem = response.data.content[0];
+        const parsedContent = JSON.parse(contentItem.content);
+        setIdContent(contentItem.id);
+        setContent(parsedContent);
+        setFormData(parsedContent);
+      } catch (error) {
+        console.error("Error fetching header content:", error);
+      }
+    };
+
+    fetchContent();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -94,7 +122,7 @@ export const HeaderEdit = () => {
               <form onSubmit={handleSubmit}>
                 <div className="mb-5">
                   <Label
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    className="block mb-2 font-medium text-gray-900 dark:text-white"
                     htmlFor="logo"
                   >
                     Logo
@@ -104,7 +132,7 @@ export const HeaderEdit = () => {
                 <div className="mb-5">
                   <Label
                     htmlFor="base-input"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    className="block mb-2 font-medium text-gray-900 dark:text-white"
                   >
                     Title
                   </Label>
@@ -120,13 +148,13 @@ export const HeaderEdit = () => {
                   <div className="grid grid-cols-2 gap-4">
                     <Label
                       htmlFor="small-input"
-                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                      className="block mb-2 font-medium text-gray-900 dark:text-white"
                     >
                       Nav Title
                     </Label>
                     <Label
                       htmlFor="small-input"
-                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                      className="block mb-2 font-medium text-gray-900 dark:text-white"
                     >
                       Href
                     </Label>

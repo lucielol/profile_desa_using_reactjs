@@ -63,6 +63,7 @@ export const LoginUser = createAsyncThunk(
 
       return data;
     } catch (error) {
+      console.error("Login error:", error);
       return rejectWithValue(
         error.response?.data?.message || "An error occurred. Please try again."
       );
@@ -92,11 +93,9 @@ const authSlice = createSlice({
       state.user = null;
       state.token = null;
       Cookies.remove("access_token");
-      state.isMe = false;
     },
   },
   extraReducers: (builder) => {
-    // Check User with token
     builder
       .addCase(check.pending, (state) => {
         state.loading = true;
@@ -104,19 +103,16 @@ const authSlice = createSlice({
       .addCase(check.fulfilled, (state, action) => {
         state.loading = false;
         state.isSuccess = true;
-        state.user = action.payload.user; // Adjust this to match your API response structure
-        state.token = action.meta.arg; // Storing the token
-        state.isMe = true; // Assuming successful check means the user is authenticated
+        state.user = action.payload.user;
+        state.token = action.meta.arg;
       })
       .addCase(check.rejected, (state, action) => {
         state.loading = false;
         state.isError = true;
         state.message =
           action.payload?.message || "Failed to authenticate user";
-        state.isMe = false;
       });
-  },
-  extraReducers: (builder) => {
+
     builder
       .addCase(LoginUser.pending, (state) => {
         state.loading = true;
@@ -128,13 +124,11 @@ const authSlice = createSlice({
         state.token = action.payload.access_token;
         state.user = action.payload.user || { email: action.meta.arg.email };
         state.isSuccess = true;
-        state.isMe = true;
       })
       .addCase(LoginUser.rejected, (state, action) => {
         state.loading = false;
         state.isError = true;
-        state.message = action.payload || "Login failed";
-        state.isMe = false;
+        state.message = action.payload?.message || "Login failed";
 
         if (action.payload && action.payload.status === 419) {
           Cookies.remove("access_token");
