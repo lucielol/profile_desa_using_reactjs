@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { LoginUser, reset } from "../features/auth/authSlice";
+import { check, LoginUser, reset } from "../features/auth/authSlice";
 import { useNavigate } from "react-router-dom";
-import Cookies from "js-cookie";
+import { Spinner, Button } from "flowbite-react";
+import getToken from "../components/GetToken";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -26,7 +27,14 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if (user || Cookies.get("access_token") || isSuccess) {
+    if (getToken) {
+      dispatch(check(getToken));
+      navigate("/dashboard");
+    }
+  }, [dispatch, user, isSuccess, navigate]);
+
+  useEffect(() => {
+    if (user || isSuccess) {
       navigate("/dashboard");
     }
 
@@ -39,10 +47,6 @@ const Login = () => {
 
     dispatch(reset());
   }, [user, isSuccess, isError, message, dispatch, navigate]);
-
-  if ((token || Cookies.get("access_token")) && isMe) {
-    navigate("/dashboard");
-  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
@@ -113,13 +117,16 @@ const Login = () => {
             </div>
           </div>
           <div>
-            <button
-              type="submit"
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              disabled={loading}
-            >
-              {loading ? "Signing in..." : "Sign in"}
-            </button>
+            <Button type="submit" color="blue" disabled={loading}>
+              {loading ? (
+                <div className="flex">
+                  <Spinner aria-label="Spinner button example" size="sm" />
+                  <span className="pl-3">Loading...</span>
+                </div>
+              ) : (
+                "Sign in"
+              )}
+            </Button>
           </div>
           {errorLogin && (
             <div className="text-red-500 text-sm mt-2">{message}</div>

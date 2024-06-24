@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import App from "../Templates/App";
 import axios from "axios";
-import CryptoJS from "crypto-js";
-import Cookies from "js-cookie";
 import Navbar from "../Templates/Navbar";
+import getToken from "../../components/GetToken";
 import { Button } from "flowbite-react";
 import { Label, TextInput, FileInput, Toast } from "flowbite-react";
 import { HiCheck, HiX } from "react-icons/hi";
@@ -20,31 +19,17 @@ export const HeaderEdit = () => {
   const [toastType, setToastType] = useState("");
   const [showToast, setShowToast] = useState(false);
 
-  const secretKey = "l630bfaYZQeSXGWMAYKSvaTSD0K7ngd2";
-  const encryptedToken = Cookies.get("access_token");
-
-  let decryptedToken = "";
-
-  if (encryptedToken) {
-    try {
-      const bytes = CryptoJS.AES.decrypt(encryptedToken, secretKey);
-      decryptedToken = bytes.toString(CryptoJS.enc.Utf8);
-    } catch (error) {
-      console.error("Error decrypting the token:", error);
-    }
-  }
-
   const getContent = async () => {
     try {
       const response = await axios.get("/api/content/header", {
         headers: {
-          Authorization: `Bearer ${decryptedToken}`,
+          Authorization: `Bearer ${getToken}`,
         },
       });
 
-      const contentItem = response.data.content[0]; // Assume first item
+      const contentItem = response.data.content[0];
       const parsedContent = JSON.parse(contentItem.content);
-      setIdContent(contentItem.id); // Store the ID of the content
+      setIdContent(contentItem.id);
       setContent(parsedContent);
       setFormData(parsedContent);
     } catch (error) {
@@ -53,12 +38,12 @@ export const HeaderEdit = () => {
   };
 
   useEffect(() => {
-    if (decryptedToken) {
+    if (getToken) {
       getContent();
     } else {
       console.error("No decrypted token available.");
     }
-  }, [decryptedToken]);
+  }, [getToken]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -85,15 +70,15 @@ export const HeaderEdit = () => {
       console.log(idContent);
       await axios.put(`/api/content/header/${idContent}`, formData, {
         headers: {
-          Authorization: `Bearer ${decryptedToken}`,
+          Authorization: `Bearer ${getToken}`,
         },
       });
-      setToastMessage("Header updated successfully!");
+      setToastMessage("Header berhasil diupdate!");
       setToastType("success");
       setShowToast(true);
     } catch (error) {
       console.error("Error updating header:", error);
-      setToastMessage("Failed to update header");
+      setToastMessage("Gagal mengupdate header");
       setToastType("error");
       setShowToast(true);
     }
@@ -166,7 +151,10 @@ export const HeaderEdit = () => {
                   ))}
                 </div>
                 <div>
-                  <Button type="submit" color="success">
+                  <Button
+                    type="submit"
+                    className="group relative flex items-stretch justify-center p-0.5 text-center font-medium transition-[color,background-color,border-color,text-decoration-color,fill,stroke,box-shadow] focus:z-10 focus:outline-none border border-transparent bg-blue-700 text-white focus:ring-4 focus:ring-blue-300 enabled:hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 rounded-lg"
+                  >
                     Simpan
                   </Button>
                 </div>
@@ -189,7 +177,6 @@ export const HeaderEdit = () => {
               )}
             </div>
             <div className="ml-3 text-sm font-normal">{toastMessage}</div>
-            <Toast.Toggle />
           </Toast>
         )}
       </App>

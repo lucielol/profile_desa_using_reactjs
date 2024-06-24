@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import logo from "../assets/images/logo.png";
 import { NavLink } from "react-router-dom";
 import { IoMenu, IoClose } from "react-icons/io5";
+import { Button } from "flowbite-react";
 
 const Header = () => {
   const [showMenu, setShowMenu] = useState(false);
@@ -90,11 +91,8 @@ const Header = () => {
               </button>
             </li>
             <li>
-              <NavLink
-                to="/login"
-                className="bg-blue-500 p-1 px-3 rounded-lg hover:bg-blue-600"
-              >
-                Login
+              <NavLink to="/login">
+                <Button color="blue">Login</Button>
               </NavLink>
             </li>
           </ul>

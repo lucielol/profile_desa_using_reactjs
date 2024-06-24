@@ -5,6 +5,26 @@ import axios from "axios";
 
 const secretKey = "l630bfaYZQeSXGWMAYKSvaTSD0K7ngd2";
 
+export const check = createAsyncThunk(
+  "auth/check",
+  async (token, { rejectWithValue }) => {
+    try {
+      const response = await axios.get("/api/auth/check", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      return response.data;
+    } catch (error) {
+      if (!error.response) {
+        throw error;
+      }
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const LoginUser = createAsyncThunk(
   "auth/login",
   async ({ email, password }, { rejectWithValue }) => {
@@ -74,6 +94,27 @@ const authSlice = createSlice({
       Cookies.remove("access_token");
       state.isMe = false;
     },
+  },
+  extraReducers: (builder) => {
+    // Check User with token
+    builder
+      .addCase(check.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(check.fulfilled, (state, action) => {
+        state.loading = false;
+        state.isSuccess = true;
+        state.user = action.payload.user; // Adjust this to match your API response structure
+        state.token = action.meta.arg; // Storing the token
+        state.isMe = true; // Assuming successful check means the user is authenticated
+      })
+      .addCase(check.rejected, (state, action) => {
+        state.loading = false;
+        state.isError = true;
+        state.message =
+          action.payload?.message || "Failed to authenticate user";
+        state.isMe = false;
+      });
   },
   extraReducers: (builder) => {
     builder

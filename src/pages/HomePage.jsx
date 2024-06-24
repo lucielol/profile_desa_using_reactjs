@@ -20,7 +20,6 @@ import PhotoSlamet from "../assets/images/slametwiyadi.jpeg";
 import PhotoAmanTujaha from "../assets/images/amantujaha.png";
 import PhotoKhumaidi from "../assets/images/Khumaidi_kuwu.png";
 
-
 const Home = () => {
   const [showGoToTop, setShowGoToTop] = useState(false);
   const location = useLocation();
@@ -307,13 +306,13 @@ const Home = () => {
         </div>
 
         {showGoToTop && (
-        <button
-          className="fixed bottom-10 right-6 sm:right-10 bg-gray-800/70 border border-gray-600/40 shadow-lg text-white p-2 rounded-full hover:bg-gray-700 transition-colors duration-300 backdrop-blur-md z-20"
-          onClick={scrollToTop}
-        >
-          <FaArrowUp />
-        </button>
-      )}
+          <button
+            className="fixed bottom-10 right-6 sm:right-10 bg-gray-800/70 border border-gray-600/40 shadow-lg text-white p-2 rounded-full hover:bg-gray-700 transition-colors duration-300 backdrop-blur-md z-20"
+            onClick={scrollToTop}
+          >
+            <FaArrowUp />
+          </button>
+        )}
       </Layout>
     </>
   );
