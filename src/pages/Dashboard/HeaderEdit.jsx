@@ -4,8 +4,8 @@ import axios from "axios";
 import getToken from "../../GetToken";
 import Navbar from "../Templates/Navbar";
 import Cookies from "js-cookie";
-import { Button } from "flowbite-react";
 import CryptoJS from "crypto-js";
+import { Button } from "flowbite-react";
 import { Label, TextInput, FileInput, Toast } from "flowbite-react";
 import { HiCheck, HiX } from "react-icons/hi";
 
@@ -25,25 +25,6 @@ export const HeaderEdit = () => {
   const [toastMessage, setToastMessage] = useState("");
   const [toastType, setToastType] = useState("");
   const [showToast, setShowToast] = useState(false);
-
-  // const getContent = async () => {
-  //   try {
-  //     const token = getToken();
-  //     const response = await axios.get("/api/content/header", {
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //     });
-
-  //     const contentItem = response.data.content[0];
-  //     const parsedContent = JSON.parse(contentItem.content);
-  //     setIdContent(contentItem.id);
-  //     setContent(parsedContent);
-  //     setFormData(parsedContent);
-  //   } catch (error) {
-  //     console.error("Error fetching header content:", error);
-  //   }
-  // };
 
   useEffect(() => {
     const fetchContent = async () => {
@@ -94,18 +75,33 @@ export const HeaderEdit = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
+      // Mendapatkan token yang didekripsi
+      const token = getToken();
+      if (!token) {
+        throw new Error("Token tidak tersedia atau tidak valid.");
+      }
+
+      // Mencetak ID konten untuk debugging
       console.log(idContent);
+
+      // Mengirimkan permintaan update header
       await axios.put(`/api/content/header/${idContent}`, formData, {
         headers: {
-          Authorization: `Bearer ${getToken}`,
+          Authorization: `Bearer ${token}`, // Menggunakan nilai token
         },
       });
+
+      // Menampilkan toast sukses
       setToastMessage("Header berhasil diupdate!");
       setToastType("success");
       setShowToast(true);
     } catch (error) {
+      // Menampilkan error di console
       console.error("Error updating header:", error);
+
+      // Menampilkan toast error
       setToastMessage("Gagal mengupdate header");
       setToastType("error");
       setShowToast(true);

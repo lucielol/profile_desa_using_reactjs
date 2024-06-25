@@ -27,13 +27,13 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if (getToken) {
-      dispatch(check(getToken));
+    if (getToken()) {
+      dispatch(check(getToken()));
+      navigate("/dashboard");
     }
   }, [dispatch, user, isSuccess, navigate]);
 
   useEffect(() => {
-    console.log("Token", token);
     if (isSuccess && user && token) {
       navigate("/dashboard");
     }

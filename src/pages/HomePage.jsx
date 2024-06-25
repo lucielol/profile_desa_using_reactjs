@@ -7,6 +7,7 @@ import { FaArrowUp } from "react-icons/fa6";
 import Gallery from "../components/Gallery";
 import ProfileCard from "../components/ProfileCard";
 import ProgressBar from "../components/ProgressBar";
+import getToken from "../GetToken";
 import newsData from "../data/NewsData.json";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
