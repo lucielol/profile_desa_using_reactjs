@@ -16,6 +16,7 @@ export const HeaderEdit = () => {
     title: { url: "", text: "" },
     navs: [],
   });
+  const [logoFile, setLogoFile] = useState(null);
 
   const secretKey = "l630bfaYZQeSXGWMAYKSvaTSD0K7ngd2";
   const encryptedToken = Cookies.get("access_token");
@@ -56,10 +57,20 @@ export const HeaderEdit = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
+    const keys = name.split(".");
+
+    setFormData((prevState) => {
+      let updatedData = { ...prevState };
+      let tempData = updatedData;
+
+      for (let i = 0; i < keys.length - 1; i++) {
+        tempData = tempData[keys[i]];
+      }
+
+      tempData[keys[keys.length - 1]] = value;
+
+      return updatedData;
+    });
   };
 
   const handleNavChange = (index, e) => {
@@ -73,35 +84,52 @@ export const HeaderEdit = () => {
     }));
   };
 
+  const handleLogoChange = (e) => {
+    setLogoFile(e.target.files[0]);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      // Mendapatkan token yang didekripsi
       const token = getToken();
       if (!token) {
         throw new Error("Token tidak tersedia atau tidak valid.");
       }
 
-      // Mencetak ID konten untuk debugging
-      console.log(idContent);
+      // Membuat objek FormData untuk mengirimkan data dan file
+      const formDataToSend = new FormData();
 
-      // Mengirimkan permintaan update header
-      await axios.put(`/api/content/header/${idContent}`, formData, {
+      // Menambahkan text title
+      formDataToSend.append("title[text]", formData.title.text);
+
+      // Menambahkan file logo jika ada
+      if (logoFile) {
+        formDataToSend.append("logo", logoFile);
+      }
+
+      // Menambahkan navigasi
+      formData.navs.forEach((nav, index) => {
+        formDataToSend.append(`navs[${index}][title]`, nav.title);
+        formDataToSend.append(`navs[${index}][url]`, nav.url);
+      });
+
+      // Mengirim data ke API dengan metode PUT
+      await axios.put(`/api/content/header/${idContent}`, formDataToSend, {
         headers: {
-          Authorization: `Bearer ${token}`, // Menggunakan nilai token
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
         },
       });
 
-      // Menampilkan toast sukses
+      // Menampilkan pesan sukses
       setToastMessage("Header berhasil diupdate!");
       setToastType("success");
       setShowToast(true);
     } catch (error) {
-      // Menampilkan error di console
       console.error("Error updating header:", error);
 
-      // Menampilkan toast error
+      // Menampilkan pesan error
       setToastMessage("Gagal mengupdate header");
       setToastType("error");
       setShowToast(true);
@@ -123,7 +151,11 @@ export const HeaderEdit = () => {
                   >
                     Logo
                   </Label>
-                  <FileInput id="logo" />
+                  <FileInput
+                    id="logo"
+                    name="logo"
+                    onChange={handleLogoChange}
+                  />
                 </div>
                 <div className="mb-5">
                   <Label

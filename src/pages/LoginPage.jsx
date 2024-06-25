@@ -31,7 +31,7 @@ const Login = () => {
       dispatch(check(getToken()));
       navigate("/dashboard");
     }
-  }, [dispatch, user, isSuccess, navigate]);
+  }, [dispatch, navigate]);
 
   useEffect(() => {
     if (isSuccess && user && token) {
