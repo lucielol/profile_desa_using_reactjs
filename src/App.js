@@ -8,6 +8,7 @@ import PrivateRoute from "./PrivateRoute";
 import { NewsPage } from "./pages/NewsPage";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import { HeaderEdit } from "./pages/Dashboard/HeaderEdit";
+import { Gallery } from "./pages/Dashboard/Gallery";
 
 const App = () => {
   return (
@@ -33,10 +34,10 @@ const App = () => {
           }
         />
         <Route
-          path="/dashboard/header/edit"
+          path="/dashboard/gallery"
           element={
             <PrivateRoute>
-              <HeaderEdit />
+              <Gallery />
             </PrivateRoute>
           }
         />

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { useLocation } from "react-router-dom";
 import News from "../components/News";
 import Layout from "../components/Layout";
@@ -23,6 +24,8 @@ import PhotoKhumaidi from "../assets/images/Khumaidi_kuwu.png";
 
 const Home = () => {
   const [showGoToTop, setShowGoToTop] = useState(false);
+  const [progress, setProgress] = useState([]);
+  const [news, setNews] = useState([]);
   const location = useLocation();
   const state = location.state;
 
@@ -81,6 +84,21 @@ const Home = () => {
       alt: "Foto 6",
     },
   ];
+
+  const getProgress = async () => {
+    const response = await axios.get("api/progress");
+    setProgress(response.data);
+  };
+
+  const getNews = async () => {
+    const response = await axios.get("api/news");
+    setNews(response);
+  };
+
+  useEffect(() => {
+    getProgress();
+    getNews();
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -181,24 +199,14 @@ const Home = () => {
                   ></div>
                   <div className="absolute inset-0 bg-black opacity-50 rounded-xl"></div>
                   <div className="absolute w-full top-0 p-6 text-white h-full flex flex-col justify-between z-20">
-                    <div className="mb-3">
-                      <ProgressBar value="28" title="Pemerintahan" />
-                    </div>
-                    <div className="mb-3">
-                      <ProgressBar
-                        value="12"
-                        title="Pembinaan Kemasyarakatan"
-                      />
-                    </div>
-                    <div className="mb-3">
-                      <ProgressBar value="65" title="Pembangunan" />
-                    </div>
-                    <div className="mb-3">
-                      <ProgressBar
-                        value="20"
-                        title="Pemberdayaan Kemasyarakatan"
-                      />
-                    </div>
+                    {progress.map((value, index) => (
+                      <div key={index} className="mb-3">
+                        <ProgressBar
+                          value={value.percentage}
+                          title={value.title}
+                        />
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>
@@ -301,7 +309,7 @@ const Home = () => {
               </span>
             </div>
             <div className="mt-10">
-              <News newsData={newsData.newsData} />
+              <News newsData={news} />
             </div>
           </div>
         </div>

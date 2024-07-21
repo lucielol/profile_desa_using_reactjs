@@ -15,8 +15,8 @@ export const HeaderEdit = () => {
   const [formData, setFormData] = useState({
     title: { url: "", text: "" },
     navs: [],
+    logo: null,
   });
-  const [logoFile, setLogoFile] = useState(null);
 
   const secretKey = "l630bfaYZQeSXGWMAYKSvaTSD0K7ngd2";
   const encryptedToken = Cookies.get("access_token");
@@ -57,20 +57,10 @@ export const HeaderEdit = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    const keys = name.split(".");
-
-    setFormData((prevState) => {
-      let updatedData = { ...prevState };
-      let tempData = updatedData;
-
-      for (let i = 0; i < keys.length - 1; i++) {
-        tempData = tempData[keys[i]];
-      }
-
-      tempData[keys[keys.length - 1]] = value;
-
-      return updatedData;
-    });
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
   };
 
   const handleNavChange = (index, e) => {
@@ -85,7 +75,11 @@ export const HeaderEdit = () => {
   };
 
   const handleLogoChange = (e) => {
-    setLogoFile(e.target.files[0]);
+    const file = e.target.files[0];
+    setFormData((prevState) => ({
+      ...prevState,
+      logo: file,
+    }));
   };
 
   const handleSubmit = async (e) => {
@@ -97,39 +91,51 @@ export const HeaderEdit = () => {
         throw new Error("Token tidak tersedia atau tidak valid.");
       }
 
-      // Membuat objek FormData untuk mengirimkan data dan file
-      const formDataToSend = new FormData();
+      const formDataUpload = new FormData();
+      formDataUpload.append("logo", formData.logo); // Mengirim file logo sebagai bagian dari FormData
 
-      // Menambahkan text title
-      formDataToSend.append("title[text]", formData.title.text);
+      // Mengirimkan permintaan upload logo
+      const responseUpload = await axios.post(
+        "api/content/header/change/logo",
+        formDataUpload,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data", // Header untuk FormData
+          },
+        }
+      );
 
-      // Menambahkan file logo jika ada
-      if (logoFile) {
-        formDataToSend.append("logo", logoFile);
-      }
+      // Jika upload logo berhasil, ambil URL logo yang baru diunggah
+      const logoUrl = responseUpload.data.url;
 
-      // Menambahkan navigasi
-      formData.navs.forEach((nav, index) => {
-        formDataToSend.append(`navs[${index}][title]`, nav.title);
-        formDataToSend.append(`navs[${index}][url]`, nav.url);
-      });
+      // Update formData dengan URL logo baru
+      setFormData((prevState) => ({
+        ...prevState,
+        title: {
+          ...prevState.title,
+          url: logoUrl,
+        },
+      }));
 
-      // Mengirim data ke API dengan metode PUT
-      await axios.put(`/api/content/header/${idContent}`, formDataToSend, {
+      console.log(logoUrl);
+
+      // Melakukan update header dengan formData yang sudah termasuk URL logo baru
+      await axios.put(`/api/content/header/${idContent}`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
-          "Content-Type": "multipart/form-data",
         },
       });
 
-      // Menampilkan pesan sukses
+      // Menampilkan toast sukses
       setToastMessage("Header berhasil diupdate!");
       setToastType("success");
       setShowToast(true);
     } catch (error) {
+      // Menampilkan error di console
       console.error("Error updating header:", error);
 
-      // Menampilkan pesan error
+      // Menampilkan toast error
       setToastMessage("Gagal mengupdate header");
       setToastType("error");
       setShowToast(true);
@@ -151,11 +157,7 @@ export const HeaderEdit = () => {
                   >
                     Logo
                   </Label>
-                  <FileInput
-                    id="logo"
-                    name="logo"
-                    onChange={handleLogoChange}
-                  />
+                  <FileInput id="logo" onChange={handleLogoChange} />
                 </div>
                 <div className="mb-5">
                   <Label

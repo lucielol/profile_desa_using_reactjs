@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { check, LoginUser, reset } from "../features/auth/authSlice";
 import { useNavigate } from "react-router-dom";
 import { Spinner, Button } from "flowbite-react";
+import dompyong from "../assets/images/dompyong-kulon.jpg";
 import getToken from "../GetToken";
 
 const Login = () => {
@@ -49,8 +50,16 @@ const Login = () => {
   }, [user, isSuccess, token, isError, message, dispatch, navigate]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="max-w-md w-full space-y-8 bg-white shadow-md p-6 rounded-lg">
+    <div
+      className="min-h-screen flex items-center justify-center bg-gray-100 relative"
+      style={{
+        backgroundImage: `url(${dompyong})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
+      <div className="absolute inset-0 bg-black opacity-70"></div>
+      <div className="relative max-w-md w-full space-y-8 bg-white bg-opacity-70 backdrop-blur-sm shadow-md p-6 rounded-lg">
         <div>
           <h2 className="my-6 text-center text-3xl font-extrabold text-gray-900">
             Sign in to your account
@@ -69,7 +78,7 @@ const Login = () => {
                 type="email"
                 autoComplete="email"
                 required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                className="appearance-none bg-opacity-70 rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 placeholder="Email address"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}

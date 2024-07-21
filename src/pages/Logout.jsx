@@ -14,6 +14,9 @@ const Logout = () => {
     // Redirect to login page
     navigate("/login", { replace: true });
 
+    // Reload the page
+    window.location.reload();
+
     // Ensure this effect runs only once
   }, [dispatch, navigate]);
 

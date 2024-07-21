@@ -61,7 +61,7 @@ const Header = () => {
       >
         <div className="flex items-center">
           <img
-            src={headerContent?.title?.url || logo}
+            src={logo}
             alt="Logo"
             className={`h-10 mr-2 ${!headerContent ? "animate-pulse" : ""}`}
           />

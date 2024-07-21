@@ -9,9 +9,9 @@ const Navbar = ({ children }) => {
         <h1 className="text-xl font-bold">{children}</h1>
       </div>
       <div className="flex items-center space-x-4">
-        <NavLink to="/logout">
+        <a href="/logout">
           <Button color="failure">Logout</Button>
-        </NavLink>
+        </a>
       </div>
     </header>
   );
