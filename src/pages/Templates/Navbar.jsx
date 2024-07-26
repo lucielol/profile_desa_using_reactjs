@@ -1,10 +1,9 @@
 import React from "react";
 import { Button } from "flowbite-react";
-import { NavLink } from "react-router-dom";
 
 const Navbar = ({ children }) => {
   return (
-    <header className="flex items-center justify-between px-6 py-4 bg-white dark:bg-gray-800">
+    <header className="fixed top-0 left-0 right-0 flex items-center justify-between px-6 py-4 bg-white dark:bg-gray-800 z-10">
       <div>
         <h1 className="text-xl font-bold">{children}</h1>
       </div>

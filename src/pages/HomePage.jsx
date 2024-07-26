@@ -8,8 +8,6 @@ import { FaArrowUp } from "react-icons/fa6";
 import Gallery from "../components/Gallery";
 import ProfileCard from "../components/ProfileCard";
 import ProgressBar from "../components/ProgressBar";
-import getToken from "../GetToken";
-import newsData from "../data/NewsData.json";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import PhotoIman from "../assets/images/iman.png";
@@ -25,7 +23,6 @@ import PhotoKhumaidi from "../assets/images/Khumaidi_kuwu.png";
 const Home = () => {
   const [showGoToTop, setShowGoToTop] = useState(false);
   const [progress, setProgress] = useState([]);
-  const [news, setNews] = useState([]);
   const location = useLocation();
   const state = location.state;
 
@@ -90,14 +87,8 @@ const Home = () => {
     setProgress(response.data);
   };
 
-  const getNews = async () => {
-    const response = await axios.get("api/news");
-    setNews(response);
-  };
-
   useEffect(() => {
     getProgress();
-    getNews();
   }, []);
 
   useEffect(() => {
@@ -309,7 +300,7 @@ const Home = () => {
               </span>
             </div>
             <div className="mt-10">
-              <News newsData={news} />
+              <News />
             </div>
           </div>
         </div>

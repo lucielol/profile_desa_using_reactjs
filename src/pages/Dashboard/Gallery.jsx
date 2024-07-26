@@ -14,7 +14,7 @@ export const Gallery = () => {
   useEffect(() => {
     const getGallery = async () => {
       try {
-        const response = await axios.get("api/content/gallery");
+        const response = await axios.get("api/admin/gallery");
         setGallery(response.data);
       } catch (error) {
         console.error("Error fetching gallery data: ", error);
@@ -43,7 +43,7 @@ export const Gallery = () => {
 
     try {
       await axios.post(
-        `api/content/gallery/update/${selectedItem.id}`,
+        `api/admin/gallery/update/${selectedItem.id}`,
         formData,
         {
           headers: {
@@ -64,9 +64,8 @@ export const Gallery = () => {
 
   return (
     <App>
-      <Navbar>Edit Gallery</Navbar>
+      <Navbar>Manage Gallery</Navbar>
       <main className="px-6">
-        <h1>Gallery</h1>
         {gallery.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             {gallery.map((item) => (
@@ -100,7 +99,9 @@ export const Gallery = () => {
             ))}
           </div>
         ) : (
-          <p>Loading...</p>
+          <div className="mt-[5rem] max-h-screen flex justify-center items-center overflow-hidden">
+            <Spinner size="xl" />
+          </div>
         )}
       </main>
 
