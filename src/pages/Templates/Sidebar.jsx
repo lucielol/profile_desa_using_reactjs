@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { IoMdHome, IoMdImages, IoMdPaper, IoMdSettings } from "react-icons/io";
+import { Button, Modal } from "flowbite-react";
 import { RiProgress5Fill } from "react-icons/ri";
 
 const Sidebar = () => {
+  const [showModal, setShowModal] = useState(false);
+
   return (
     <aside className="fixed w-64 h-full bg-white dark:bg-gray-800 shadow-md">
       <div className="p-4">
@@ -50,16 +53,27 @@ const Sidebar = () => {
             </NavLink>
           </li>
           <li>
-            <a
-              href="#settings"
-              className="flex items-center px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700"
+            <button
+              onClick={() => setShowModal(true)}
+              className="flex w-full items-center px-4 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-gray-700"
             >
               <IoMdSettings className="mr-2" />
               Settings
-            </a>
+            </button>
           </li>
         </ul>
       </nav>
+      <Modal show={showModal} onClose={() => setShowModal(false)}>
+        <Modal.Header>Setting</Modal.Header>
+        <Modal.Body>
+          <h1 className="text-2xl">Coming Soon...</h1>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button color="failure" onClick={() => setShowModal(false)}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </aside>
   );
 };

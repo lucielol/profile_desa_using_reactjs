@@ -6,9 +6,7 @@ import { Button, Modal, FileInput, Spinner } from "flowbite-react";
 
 export const Gallery = () => {
   const [gallery, setGallery] = useState([]);
-  const [selectedItem, setSelectedItem] = useState(null);
   const [openModal, setOpenModal] = useState(false);
-  const [newImage, setNewImage] = useState(null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -23,44 +21,6 @@ export const Gallery = () => {
 
     getGallery();
   }, []);
-
-  const handleEditClick = (item) => {
-    setSelectedItem(item);
-    setOpenModal(true);
-  };
-
-  const handleFileChange = (e) => {
-    setNewImage(e.target.files[0]);
-  };
-
-  const handleUpdate = async () => {
-    if (!newImage || !selectedItem) return;
-
-    setLoading(true);
-    const formData = new FormData();
-    formData.append("img", newImage);
-    formData.append("alt", "foto 1");
-
-    try {
-      await axios.post(
-        `api/admin/gallery/update/${selectedItem.id}`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-      const response = await axios.get("api/content/gallery");
-      setGallery(response.data);
-      // setOpenModal(false);
-      // setNewImage(null);
-    } catch (error) {
-      console.error("Error updating gallery image: ", error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   return (
     <App>
@@ -86,13 +46,12 @@ export const Gallery = () => {
                     >
                       View
                     </Button>
-                    <Button
-                      color="success"
-                      onClick={() => handleEditClick(item)}
-                    >
+                    <Button color="success" onClick={() => setOpenModal(true)}>
                       Edit
                     </Button>
-                    <Button color="failure">Delete</Button>
+                    <Button color="failure" onClick={() => setOpenModal(true)}>
+                      Delete
+                    </Button>
                   </Button.Group>
                 </div>
               </div>
@@ -108,34 +67,11 @@ export const Gallery = () => {
       <Modal show={openModal} onClose={() => setOpenModal(false)}>
         <Modal.Header>Edit Gallery</Modal.Header>
         <Modal.Body>
-          <div className="space-y-6">
-            {selectedItem && (
-              <img
-                src={selectedItem.img}
-                className="w-full"
-                alt={selectedItem.alt}
-              />
-            )}
-            <div>
-              <div className="mb-2 block">
-                <FileInput id="file-upload" onChange={handleFileChange} />
-              </div>
-            </div>
-          </div>
+          <h1 className="text-2xl">Coming Soon...</h1>
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={handleUpdate} disabled={loading}>
-            {loading ? (
-              <div className="flex items-center">
-                <Spinner aria-label="Spinner button example" size="sm" />
-                <span className="pl-3">Updating...</span>
-              </div>
-            ) : (
-              "Update"
-            )}
-          </Button>
           <Button color="failure" onClick={() => setOpenModal(false)}>
-            Cancel
+            Close
           </Button>
         </Modal.Footer>
       </Modal>
